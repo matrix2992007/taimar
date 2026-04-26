@@ -1,235 +1,155 @@
-/* --- المتغيرات اللونية (Deep Neon Theme) --- */
+/* --- المتغيرات الرئيسية (Cyberpunk Theme) --- */
 :root {
-    --primary: #6366f1;       /* بنفسجي نيون */
-    --primary-glow: rgba(99, 102, 241, 0.5);
-    --accent: #10b981;        /* أخضر زمردي للنجاح */
-    --danger: #ef4444;        /* أحمر ناري للتوقف */
-    --bg-dark: #030712;       /* أسود كربوني عميق */
-    --card-bg: rgba(255, 255, 255, 0.03);
+    --primary: #6366f1;       /* نيون بنفسجي */
+    --accent: #10b981;        /* نيون أخضر */
+    --gold: #fbbf24;          /* ذهبي */
+    --silver: #e2e8f0;        /* فضي */
+    --diamond: #00d4ff;       /* ماسي */
+    --bg-dark: #030712;       /* أسود عميق */
+    --card-bg: rgba(255, 255, 255, 0.04);
     --border: rgba(255, 255, 255, 0.1);
     --text-main: #f8fafc;
     --text-dim: #94a3b8;
 }
 
-/* --- التنسيق الأساسي --- */
+/* --- الأساسيات --- */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    -webkit-tap-highlight-color: transparent;
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    user-select: none;
 }
 
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
-    line-height: 1.6;
-    overflow-x: hidden;
-    background-image: 
-        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
     min-height: 100vh;
+    overflow: hidden; /* لمنع السكرول الخارجي واستخدام الـ content-scroll */
 }
 
-/* --- تأثير الزجاج (Glassmorphism) --- */
 .glass-effect {
     background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(15px);
     border: 1px solid var(--border);
 }
 
-/* --- شاشة التسجيل (Onboarding) --- */
+/* --- شاشة الدخول (Onboarding) --- */
 .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(2, 6, 23, 0.95);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+    position: fixed; inset: 0; background: var(--bg-dark);
+    display: flex; justify-content: center; align-items: center; z-index: 2000;
 }
 
 .modal-content {
-    width: 90%;
-    max-width: 400px;
-    padding: 40px 25px;
-    border-radius: 30px;
-    text-align: center;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    width: 85%; max-width: 400px; padding: 40px 20px;
+    border-radius: 30px; text-align: center;
 }
 
-.step { display: none; animation: fadeIn 0.5s ease forwards; }
+.step { display: none; animation: slideUp 0.4s ease; }
 .step.active { display: block; }
 
-.neon-circle {
-    width: 80px; height: 80px;
-    background: var(--primary);
-    border-radius: 50%;
-    margin: 0 auto 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 0 20px var(--primary-glow);
+.neon-icon-circle {
+    width: 70px; height: 70px; background: var(--primary);
+    border-radius: 50%; margin: 0 auto 20px;
+    display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 0 20px var(--primary); font-size: 1.5rem;
+}
+
+/* --- الهيدر والرتب --- */
+.main-header {
+    padding: 20px; display: flex; justify-content: space-between; align-items: center;
+}
+
+.badge-rank {
+    padding: 4px 12px; border-radius: 50px; font-size: 0.75rem;
+    font-weight: bold; margin-top: 5px; transition: 0.5s;
 }
 
 /* --- الهيكل العضلي التفاعلي --- */
-.body-wrapper {
-    height: 400px;
-    display: flex;
-    justify-content: center;
-    padding: 10px;
+.svg-container {
+    height: 350px; display: flex; justify-content: center;
 }
 
-.human-svg {
-    height: 100%;
-    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+.human-body-svg { height: 100%; transition: 0.3s; }
+
+.muscle-part, .muscle-part-line {
+    fill: #1e293b; stroke: var(--border); stroke-width: 1.5;
+    transition: 0.3s; cursor: pointer;
 }
 
-.muscle-part {
-    fill: #1e293b;
-    stroke: var(--border);
-    stroke-width: 1.5;
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-}
+.muscle-part-line { fill: none; stroke-width: 3; }
 
-.muscle-part:hover {
-    fill: #334155;
-    stroke: var(--primary);
+/* تأثير النبض للعضلة النشطة */
+@keyframes musclePulse {
+    0% { filter: drop-shadow(0 0 2px var(--primary)); opacity: 0.8; }
+    50% { filter: drop-shadow(0 0 15px var(--primary)); opacity: 1; }
+    100% { filter: drop-shadow(0 0 2px var(--primary)); opacity: 0.8; }
 }
 
 .muscle-part.active {
-    fill: var(--primary);
-    stroke: white;
-    filter: drop-shadow(0 0 15px var(--primary-glow));
+    fill: var(--primary) !important;
+    animation: musclePulse 1.5s infinite;
 }
 
-/* --- كروت الواجهة --- */
-.main-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    margin-bottom: 100px;
+/* --- لستة التمارين --- */
+.exercise-grid {
+    display: grid; gap: 12px; margin-top: 15px;
 }
 
-.card {
-    border-radius: 28px;
-    padding: 25px;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
+.ex-item {
+    padding: 15px; border-radius: 15px; background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border); cursor: pointer; transition: 0.2s;
 }
 
-.card h3 {
-    font-size: 1rem;
-    color: var(--text-dim);
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.ex-item:hover { background: rgba(99, 102, 241, 0.1); border-color: var(--primary); }
+
+/* --- التايمر --- */
+.timer-circle {
+    width: 150px; height: 150px; border-radius: 50%;
+    border: 4px solid var(--primary); margin: 20px auto;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 2.5rem; font-weight: 800; color: var(--primary);
+    box-shadow: inset 0 0 15px var(--primary), 0 0 15px var(--primary);
 }
 
-/* --- التايمر الاحترافي --- */
-.timer-main {
-    font-size: 5rem;
-    font-weight: 800;
-    text-align: center;
-    font-family: 'Courier New', Courier, monospace;
-    background: linear-gradient(to bottom, #fff, var(--primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 10px 0;
+/* --- شريط التنقل السفلي --- */
+.bottom-nav {
+    position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
+    width: 90%; max-width: 400px; padding: 12px;
+    border-radius: 20px; display: flex; justify-content: space-around;
 }
 
-.mode-indicator {
-    text-align: center;
-    color: var(--accent);
-    font-size: 0.8rem;
-    font-weight: bold;
-    letter-spacing: 2px;
+.nav-item { text-align: center; color: var(--text-dim); transition: 0.3s; cursor: pointer; }
+.nav-item i { font-size: 1.2rem; display: block; margin-bottom: 4px; }
+.nav-item p { font-size: 0.65rem; }
+.nav-item.active { color: var(--primary); transform: translateY(-5px); }
+
+/* --- صفحة التحليل --- */
+.mini-map svg { height: 150px; margin: 0 auto; display: block; }
+
+.stats-list { margin-top: 15px; }
+.stat-row {
+    display: flex; justify-content: space-between; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
 }
 
 /* --- الأزرار --- */
 button {
-    width: 100%;
-    padding: 18px;
-    border-radius: 18px;
-    border: none;
-    font-weight: bold;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: 0.3s;
+    border: none; border-radius: 12px; padding: 12px;
+    font-weight: bold; cursor: pointer; transition: 0.3s;
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary), #4f46e5);
-    color: white;
-    box-shadow: 0 10px 25px var(--primary-glow);
-}
+.btn-main, .btn-start { background: var(--primary); color: white; width: 100%; }
+.btn-stop { background: var(--danger); color: white; width: 100%; margin-top: 10px; }
 
-.btn-primary:active { transform: scale(0.95); }
+/* --- الأنميشن وإخفاء العناصر --- */
+.app-hidden { display: none !important; }
 
-.btn-danger {
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid var(--danger);
-    color: var(--danger);
-}
-
-/* --- شريط التنقل السفلي --- */
-.nav-bar {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 450px;
-    padding: 15px;
-    border-radius: 24px;
-    display: flex;
-    justify-content: space-around;
-    z-index: 1000;
-}
-
-.nav-item {
-    text-align: center;
-    color: var(--text-dim);
-    font-size: 0.7rem;
-}
-
-.nav-item i {
-    font-size: 1.5rem;
-    margin-bottom: 5px;
-    display: block;
-}
-
-.nav-item.active {
-    color: var(--primary);
-    text-shadow: 0 0 10px var(--primary-glow);
-}
-
-/* --- تفاصيل إضافية --- */
-input {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    padding: 15px;
-    border-radius: 14px;
-    color: white;
-    width: 100%;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.badge {
-    background: var(--primary);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-}
-
-/* --- Animations --- */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-.app-hidden { display: none; }
+.content-scroll {
+    height: calc(100vh - 160px); overflow-y: auto; padding: 15px;
+}
+
+.card { padding: 20px; border-radius: 25px; margin-bottom: 15px; border: 1px solid var(--border); background: var(--card-bg); }
