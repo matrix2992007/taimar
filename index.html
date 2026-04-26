@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Youssef Elite 3D | مبرمج العضلات</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Youssef Elite 3D | Pro System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
@@ -13,195 +13,103 @@
     <div id="onboarding" class="modal-overlay">
         <div class="modal-content glass-effect">
             <div id="step1" class="step active">
-                <div class="neon-circle"><i class="fas fa-robot fa-3x"></i></div>
-                <h2>أهلاً يا بطل!</h2>
-                <p>أنا مدربك الذكي، سجل اسمك لنبدأ</p>
+                <div class="neon-icon-circle"><i class="fas fa-robot"></i></div>
+                <h2>أهلاً يا يوسف!</h2>
+                <p>سجل بياناتك لتفعيل مدربك الذكي</p>
                 <input type="text" id="userNameInput" placeholder="اكتب اسمك هنا...">
-                <button class="btn-next" onclick="goToStep(2)">التالي <i class="fas fa-chevron-left"></i></button>
+                <button class="btn-main" onclick="goToStep(2)">استمرار <i class="fas fa-arrow-left"></i></button>
             </div>
-
             <div id="step2" class="step">
-                <i class="fas fa-weight-hanging fa-3x neon-icon"></i>
-                <h2 id="welcomeMsg"></h2>
-                <p>الوزن (كجم) والطول (سم)</p>
+                <h2>القياسات الحيوية</h2>
                 <div class="input-group">
-                    <input type="number" id="userWeightInput" placeholder="الوزن">
-                    <input type="number" id="userHeightInput" placeholder="الطول">
+                    <input type="number" id="userWeightInput" placeholder="الوزن (كجم)">
+                    <input type="number" id="userHeightInput" placeholder="الطول (سم)">
                 </div>
-                <button class="btn-finish" onclick="finishOnboarding()">دخول الأنظمة <i class="fas fa-bolt"></i></button>
+                <button class="btn-main" onclick="finishOnboarding()">دخول النظام <i class="fas fa-bolt"></i></button>
             </div>
         </div>
     </div>
 
-    <div id="mainApp" class="app-hidden">
-        <header class="app-header glass-effect">
-            <div class="user-info">
+    <div id="mainApp" class="app-container app-hidden">
+        
+        <header class="main-header glass-effect">
+            <div class="user-meta">
                 <h2 id="displayUserName">يوسف</h2>
-                <span id="rankBadge" class="badge">رتبة: مبتدئ</span>
+                <div id="rankBadge" class="badge-rank">رتبة: مستجد</div>
             </div>
-            <div class="analysis-tag" id="goalTag">تحليل الهدف...</div>
+            <div class="goal-indicator" id="goalTag">تحليل الهدف...</div>
         </header>
 
-        <main class="main-grid">
+        <main class="content-scroll">
             
-            <section class="card body-card">
-                <h3>خريطة العضلات 3D</h3>
-                <div class="body-wrapper">
-                    <svg viewBox="0 0 200 450" class="human-svg">
-                        <circle cx="100" cy="40" r="25" class="muscle-part head" />
-                        <path id="chest" d="M70,80 Q100,70 130,80 L135,130 Q100,140 65,130 Z" class="muscle-part" onclick="selectMuscle('chest', 'الضغط')"/>
-                        <path id="abs" d="M75,145 H125 L120,200 H80 Z" class="muscle-part" onclick="selectMuscle('abs', 'البلانك')"/>
-                        <path id="shoulders_l" d="M40,85 L65,80 L60,130 Z" class="muscle-part" onclick="selectMuscle('shoulders', 'الكتف')"/>
-                        <path id="shoulders_r" d="M160,85 L135,80 L140,130 Z" class="muscle-part" onclick="selectMuscle('shoulders', 'الكتف')"/>
-                        <path id="leg_l" d="M75,210 L95,215 L90,350 H65 Z" class="muscle-part" onclick="selectMuscle('legs', 'السكوات')"/>
-                        <path id="leg_r" d="M125,210 L105,215 L110,350 H135 Z" class="muscle-part" onclick="selectMuscle('legs', 'السكوات')"/>
-                    </svg>
+            <section id="workoutTab" class="tab-content">
+                <div class="card body-card">
+                    <h3>خريطة العضلات التفاعلية</h3>
+                    <div class="svg-container">
+                        <svg viewBox="0 0 200 450" class="human-body-svg">
+                            <circle cx="100" cy="40" r="22" class="muscle-static" />
+                            <path id="chest" d="M70,80 Q100,70 130,80 L135,130 Q100,140 65,130 Z" class="muscle-part" onclick="loadMuscleLibrary('chest', 'الصدر')"/>
+                            <path id="abs" d="M75,145 H125 L120,200 H80 Z" class="muscle-part" onclick="loadMuscleLibrary('abs', 'البطن')"/>
+                            <path id="arms" d="M45,85 L65,130 L40,220 M155,85 L135,130 L160,220" class="muscle-part-line" onclick="loadMuscleLibrary('arms', 'الذراعين')"/>
+                            <path id="legs" d="M75,210 L95,215 L90,380 H65 Z M125,210 L105,215 L110,380 H135 Z" class="muscle-part" onclick="loadMuscleLibrary('legs', 'الأرجل')"/>
+                        </svg>
+                    </div>
                 </div>
-                <div class="status-bar glass-effect">
-                    <span id="targetText">اختر عضلة</span>
-                    <label class="switch">
-                        <input type="checkbox" id="countToggle" onchange="updateMode()">
-                        <span class="slider round"></span>
-                    </label>
-                    <small>نظام 2ث</small>
+
+                <div id="exerciseListContainer" class="card list-card app-hidden">
+                    <h3 id="muscleTitle">تمارين العضلة</h3>
+                    <div id="exerciseItemsGrid" class="exercise-grid"></div>
+                </div>
+
+                <div id="timerCard" class="card timer-card app-hidden">
+                    <h4 id="currentExerciseName">اسم التمرين</h4>
+                    <div class="timer-circle">
+                        <span id="timerDisplay">00:00</span>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="startBtn" class="btn-start" onclick="startWorkoutSession()">ابدأ <i class="fas fa-play"></i></button>
+                        <button id="stopBtn" class="btn-stop app-hidden" onclick="stopWorkoutSession()">إنهاء <i class="fas fa-stop"></i></button>
+                    </div>
                 </div>
             </section>
 
-            <section class="card workout-card">
-                <div class="timer-container">
-                    <div id="modeLabel" class="mode-indicator">نظام الثواني</div>
-                    <div id="timerDisplay" class="timer-main">00:00</div>
+            <section id="analysisTab" class="tab-content app-hidden">
+                <div class="card analysis-card">
+                    <h3>تحليل القوة العضلية</h3>
+                    <div id="analysisBodyView" class="mini-map"></div>
+                    <div id="statsDetail" class="stats-list"></div>
                 </div>
-                
-                <div class="action-buttons">
-                    <button id="startBtn" class="btn-primary" onclick="startWorkout()">ابدأ الجولة</button>
-                    <button id="stopBtn" class="btn-danger" style="display:none;" onclick="stopWorkout()">إنهاء</button>
+                <div class="card achievements-card">
+                    <h3>الأوسمة المحققة</h3>
+                    <div id="achievementsGrid" class="achievements-grid">
+                        </div>
                 </div>
+            </section>
 
-                <div class="doctor-advice glass-effect">
-                    <div class="doc-header">
-                        <i class="fas fa-user-md"></i> <span>نصيحة يوسف الذكية</span>
-                    </div>
-                    <p id="adviceContent">اضغط على أي عضلة في المجسم لبدء التحليل الطبي والغذائي.</p>
-                    <div id="performanceArrow"></div>
+            <section id="nutritionTab" class="tab-content app-hidden">
+                <div class="card nutrition-card">
+                    <h3>برنامجك الغذائي الذكي</h3>
+                    <div id="nutritionContent" class="nutrition-box"></div>
                 </div>
             </section>
         </main>
 
-        <nav class="nav-bar glass-effect">
-            <div class="nav-item active"><i class="fas fa-dumbbell"></i><p>تمرين</p></div>
-            <div class="nav-item"><i class="fas fa-utensils"></i><p>تغذية</p></div>
-            <div class="nav-item" onclick="reOpenSettings()"><i class="fas fa-cog"></i><p>إعدادات</p></div>
+        <nav class="bottom-nav glass-effect">
+            <div class="nav-item active" onclick="switchTab('workout')">
+                <i class="fas fa-dumbbell"></i><p>تمرين</p>
+            </div>
+            <div class="nav-item" onclick="switchTab('analysis')">
+                <i class="fas fa-chart-pie"></i><p>تحليل</p>
+            </div>
+            <div class="nav-item" onclick="switchTab('nutrition')">
+                <i class="fas fa-utensils"></i><p>تغذية</p>
+            </div>
+            <div class="nav-item" onclick="reOpenSettings()">
+                <i class="fas fa-user-gear"></i><p>إعدادات</p>
+            </div>
         </nav>
     </div>
 
-    <script>
-        let timer;
-        let seconds = 0;
-        let isCountMode = false;
-        let userData = JSON.parse(localStorage.getItem('youssef_elite_data')) || null;
-        let lastRecord = 0;
-
-        // 1. نظام النطق (Voice Synthesis)
-        function speak(text) {
-            const synth = window.speechSynthesis;
-            const utter = new SpeechSynthesisUtterance(text);
-            utter.lang = 'ar-SA';
-            utter.rate = 0.9;
-            synth.speak(utter);
-        }
-
-        // 2. Onboarding Logic
-        window.onload = () => { if(userData) showApp(); };
-
-        function goToStep(s) {
-            const name = document.getElementById('userNameInput').value;
-            if(!name) return alert("اكتب اسمك يا وحش!");
-            document.getElementById('welcomeMsg').innerText = `أهلاً يا ${name}`;
-            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-            document.getElementById(`step${s}`).classList.add('active');
-        }
-
-        function finishOnboarding() {
-            const weight = document.getElementById('userWeightInput').value;
-            const height = document.getElementById('userHeightInput').value;
-            if(!weight || !height) return alert("كمل بياناتك!");
-            
-            userData = { 
-                name: document.getElementById('userNameInput').value,
-                weight: weight, height: height 
-            };
-            localStorage.setItem('youssef_elite_data', JSON.stringify(userData));
-            showApp();
-        }
-
-        function showApp() {
-            document.getElementById('onboarding').style.display = 'none';
-            document.getElementById('mainApp').classList.remove('app-hidden');
-            document.getElementById('displayUserName').innerText = userData.name;
-            runHealthAnalysis();
-            speak(`مرحباً بك يا ${userData.name}. مدربك الذكي جاهز.`);
-        }
-
-        // 3. تحليل التضخيم والتنشيف
-        function runHealthAnalysis() {
-            const h = userData.height / 100;
-            const bmi = (userData.weight / (h*h)).toFixed(1);
-            let goal = "", food = "";
-            
-            if(bmi < 24) { goal = "تضخيم (Bulking)"; food = "عليك بالكاربو المعقد (رز وبطاطس) وبروتين عالي."; }
-            else { goal = "تنشيف (Cutting)"; food = "قلل السكر والخبز، وزيد كمية الخضروات والبروتين."; }
-            
-            document.getElementById('goalTag').innerText = goal;
-            document.getElementById('adviceContent').innerHTML = `<strong>هدفك:</strong> ${goal}<br><strong>الأكل:</strong> ${food}`;
-        }
-
-        // 4. نظام التمرين
-        function selectMuscle(id, name) {
-            document.querySelectorAll('.muscle-part').forEach(m => m.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            document.getElementById('targetText').innerText = name;
-            speak(`تم اختيار تمرين ${name}. هل أنت مستعد؟`);
-        }
-
-        function updateMode() {
-            isCountMode = document.getElementById('countToggle').checked;
-            document.getElementById('modeLabel').innerText = isCountMode ? "نظام العدّات (2ث)" : "نظام الثواني";
-        }
-
-        function startWorkout() {
-            document.getElementById('startBtn').style.display = 'none';
-            document.getElementById('stopBtn').style.display = 'block';
-            seconds = 0;
-            speak("ابدأ التمرين الآن.. عاش يا بطل!");
-            timer = setInterval(() => {
-                seconds++;
-                let display = document.getElementById('timerDisplay');
-                if(isCountMode) {
-                    display.innerText = Math.floor(seconds/2);
-                } else {
-                    let m = Math.floor(seconds/60), s = seconds%60;
-                    display.innerText = `${m<10?'0':''}${m}:${s<10?'0':''}${s}`;
-                }
-            }, 1000);
-        }
-
-        function stopWorkout() {
-            clearInterval(timer);
-            document.getElementById('startBtn').style.display = 'block';
-            document.getElementById('stopBtn').style.display = 'none';
-            
-            let score = isCountMode ? Math.floor(seconds/2) : seconds;
-            let arrow = score >= lastRecord ? "🔼 (تحسن ملحوظ)" : "🔽 (حاول مرة أخرى)";
-            document.getElementById('performanceArrow').innerHTML = `<h2 style="color:var(--primary)">${arrow}</h2>`;
-            lastRecord = score;
-            speak(`انتهى التمرين. أداؤك كان ${score}.`);
-        }
-
-        // Service Worker للعمل أوفلاين
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
