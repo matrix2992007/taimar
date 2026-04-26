@@ -1,0 +1,17 @@
+{
+  "name": "Youssef Elite 3D Fitness",
+  "short_name": "EliteFit",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#030712",
+  "theme_color": "#6366f1",
+  "description": "تطبيق رياضي ذكي يدعم العمل بدون إنترنت مع مساعد صوتي",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2936/2936886.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
